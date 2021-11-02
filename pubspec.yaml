@@ -42,6 +42,7 @@ dependencies:
   rxdart: ^0.27.2
   about: ^2.1.0
   fluttertoast: ^8.0.8
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:
@@ -77,13 +78,13 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: Gemunu
+  - family: Geman
     fonts:
     - asset: fonts/GemunuLibre-VariableFont_wght.ttf
   - family: Roboto
     fonts:
     - asset: fonts/Roboto-Regular.ttf
-  - family: Titil
+  - family: Title
     fonts:
     - asset: fonts/TitilliumWeb-Regular.ttf
   # For details regarding fonts from package dependencies,

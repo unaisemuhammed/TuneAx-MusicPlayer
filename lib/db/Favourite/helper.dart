@@ -4,32 +4,37 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'db_helper.dart';
 
-class DatabaseHandler{
-
+class DatabaseHandler {
   Future<Database> initializeDB() async {
-    String dbpath = await getDatabasesPath();
-    return openDatabase(join(dbpath, "favSongDb.db"),
+    final String dbpath = await getDatabasesPath();
+    return openDatabase(
+      join(dbpath, 'favSongDb.db'),
       version: 1,
-      onCreate: (database, version,) async {
-      print("Creating favourite SONG");
+      onCreate: (
+        database,
+        version,
+      ) async {
+        print('Creating favourite SONG');
         await database.execute(
-          "CREATE TABLE users(num INTEGER PRIMARY KEY,name TEXT NOT NULL,location TEXT NOT NULL)",);
-      },);
+          'CREATE TABLE users(num INTEGER PRIMARY KEY,name TEXT NOT NULL,'
+          'location TEXT NOT NULL)',
+        );
+      },
+    );
   }
 
-  Future <int> insertFavSongs(List<Songs>users)async{
-    int result =0;
-    final Database db =await initializeDB();
-    for(var user in users){
-      result =await db.insert('users', user.toMap());
+  Future<int> insertFavSongs(List<Songs> users) async {
+    int result = 0;
+    final Database db = await initializeDB();
+    for (var user in users) {
+      result = await db.insert('users', user.toMap());
     }
     return result;
   }
 
-  Future <List<Songs>>retrieveFavSongs()async{
-    final Database db =await initializeDB();
-    final List <Map<String,Object?>>queryResult=await db.query('users');
-    debugPrint("UNAISEr: $queryResult");
+  Future<List<Songs>> retrieveFavSongs() async {
+    final Database db = await initializeDB();
+    final List<Map<String, Object?>> queryResult = await db.query('users');
     return queryResult.map((e) => Songs.fromMap(e)).toList();
   }
 
@@ -37,11 +42,8 @@ class DatabaseHandler{
     final db = await initializeDB();
     await db.delete(
       'users',
-      where: "num = ?",
+      where: 'num = ?',
       whereArgs: [num],
     );
   }
 }
-
-
-

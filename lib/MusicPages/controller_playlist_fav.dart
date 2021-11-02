@@ -2,30 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:musicplayer/db/Favourite/db_helper.dart';
 import 'package:musicplayer/db/Favourite/helper.dart';
-import 'package:musicplayer/db/Playlist/SelectPlaylist.dart';
+import 'package:musicplayer/db/Playlist/select_playlist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../justAudioBackground.dart';
+import '../just_audio_background.dart';
 
-class MusicControlls extends StatefulWidget {
+class MusicControllerPlayAndFav extends StatefulWidget {
   SongModel songInfo;
 
-  MusicControlls({
+  MusicControllerPlayAndFav({
     required this.songInfo,
     required this.changeTrack,
     required this.key,
   }) : super(key: key);
   Function changeTrack;
-  final GlobalKey<MusicControllsState> key;
   @override
-  MusicControllsState createState() => MusicControllsState();
+  final GlobalKey<MusicControllerPlayAndFavState> key;
+  @override
+  MusicControllerPlayAndFavState createState() => MusicControllerPlayAndFavState();
 }
 
-class MusicControllsState extends State<MusicControlls> {
+class MusicControllerPlayAndFavState extends State<MusicControllerPlayAndFav> {
   double minimumValue = 0.0, maximumValue = 0.0, currentValue = 0.0;
   String currentTime = '', endTime = '';
   bool isPlaying = false;
@@ -35,7 +36,6 @@ class MusicControllsState extends State<MusicControlls> {
   dynamic songLocation;
   DatabaseHandler? handler;
   int fav = 0;
-  var _audioPlayer;
 
   @override
   void initState() {
@@ -47,18 +47,19 @@ class MusicControllsState extends State<MusicControlls> {
     // addUsers(songTitle, songId, songLocation);
   }
 
+  @override
   void dispose() {
     super.dispose();
     player.dispose();
   }
 
   Future<int> addUsers(songTitle, songId, songLocation) async {
-    Songs firstUser =
+    final Songs firstUser =
         Songs(name: songTitle, num: songId, location: songLocation);
-    List<Songs> listOfUsers = [firstUser];
-    debugPrint("ADNAN:$songTitle");
-    debugPrint("ADNAN: $songId");
-    debugPrint("ADNAN: $songLocation");
+    final List<Songs> listOfUsers = [firstUser];
+    debugPrint('ADNAN:$songTitle');
+    debugPrint('ADNAN: $songId');
+    debugPrint('ADNAN: $songLocation');
     return await handler!.insertFavSongs(listOfUsers);
   }
 
@@ -115,7 +116,7 @@ class MusicControllsState extends State<MusicControlls> {
   }
 
   String getDuration(double value) {
-    Duration duration = Duration(milliseconds: value.round());
+    final Duration duration = Duration(milliseconds: value.round());
     return [duration.inMinutes, duration.inSeconds]
         .map((element) => element.remainder(60).toString().padLeft(2, '0'))
         .join(':');
@@ -130,24 +131,24 @@ class MusicControllsState extends State<MusicControlls> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 5),
+          title: const Padding(
+            padding: EdgeInsets.only(top: 5),
             child: Text(
-              "TUNE " "Ax",
+              'TUNE ' 'Ax',
               style: TextStyle(
                   fontSize: 25,
-                  fontFamily: 'Gemunu',
+                  fontFamily: 'Geman',
                   fontWeight: FontWeight.bold),
             ),
           ),
           elevation: 0,
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           leading: IconButton(
-            padding: EdgeInsets.only(top: 5, left: 10),
+            padding: const EdgeInsets.only(top: 5, left: 10),
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.keyboard_arrow_down_rounded,
               size: 40,
             ),
@@ -155,13 +156,13 @@ class MusicControllsState extends State<MusicControlls> {
         ),
         backgroundColor: Colors.transparent,
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                AppColors.back,
-                Colors.black,
+                    app_colors.back,
+                    app_colors.shade,
               ])),
           child: Stack(
             children: [
@@ -224,7 +225,8 @@ class MusicControllsState extends State<MusicControlls> {
                           } else if (processingState !=
                               ProcessingState.completed) {
                             return IconButton(
-                              icon: const Icon(Icons.pause, color: Colors.white),
+                              icon: const Icon(Icons.pause,
+                                  color: Colors.white),
                               iconSize: 64.0,
                               onPressed: player.pause,
                             );
@@ -279,13 +281,13 @@ class MusicControllsState extends State<MusicControlls> {
                 child: StreamBuilder<double>(
                   stream: player.speedStream,
                   builder: (context, snapshot) => IconButton(
-                    icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
+                    icon: Text('${snapshot.data?.toStringAsFixed(1)}x',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white)),
                     onPressed: () {
                       showSliderDialog(
                         context: context,
-                        title: "Adjust speed",
+                        title: 'Adjust speed',
                         divisions: 10,
                         min: 0.5,
                         max: 1.5,
@@ -337,11 +339,11 @@ class MusicControllsState extends State<MusicControlls> {
                       IconButton(
                         iconSize: 30,
                         color: Colors.white,
-                        icon: Icon(Icons.volume_up),
+                        icon: const Icon(Icons.volume_up),
                         onPressed: () {
                           showSliderDialog(
                             context: context,
-                            title: "Adjust volume",
+                            title: 'Adjust volume',
                             divisions: 10,
                             min: 0.0,
                             max: 1.0,
@@ -358,7 +360,8 @@ class MusicControllsState extends State<MusicControlls> {
                       //   iconSize: 25,
                       //   color: Colors.white,
                       //   onPressed: () async {
-                      //     await this.handler!.deleteUser(snapshot.data![index].num);
+                      //     await this.handler!.deleteUser(
+                      //     snapshot.data![index].num);
                       //     setState(() {
                       //       snapshot.data!.remove(snapshot.data![index].num);
                       //     });
@@ -367,7 +370,7 @@ class MusicControllsState extends State<MusicControlls> {
                       //       ? Icon(Icons.favorite_border)
                       //       : Icon(Icons.favorite),
                       // ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       IconButton(
@@ -383,7 +386,7 @@ class MusicControllsState extends State<MusicControlls> {
                                     widget.songInfo.title),
                               ));
                         },
-                        icon: Icon(Icons.add_outlined),
+                        icon: const Icon(Icons.add_outlined),
                       ),
                     ],
                   ),
@@ -401,10 +404,10 @@ class MusicControllsState extends State<MusicControlls> {
                   child: Center(
                     child: Text(
                       widget.songInfo.artist.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 20,
-                          fontFamily: "Titil"),
+                          fontFamily: 'Titil'),
                     ),
                   ),
                   height: 100,
@@ -425,10 +428,10 @@ class MusicControllsState extends State<MusicControlls> {
                     builder: (context, snapshot) {
                       return Text(
                         widget.songInfo.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
-                            fontFamily: "Titil"),
+                            fontFamily: 'Titil'),
                       );
                     },
                   ),
@@ -456,9 +459,9 @@ class MusicControllsState extends State<MusicControlls> {
                               width: 180,
                               height: 180,
                               decoration: BoxDecoration(
-                                  color: AppColors.back,
+                                  color: app_colors.back,
                                   borderRadius: BorderRadius.circular(40)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.music_note_outlined,
                                 color: Colors.white70,
                                 size: 90,
@@ -491,10 +494,10 @@ void showSliderDialog({
   showDialog<void>(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: AppColors.back,
+      backgroundColor: app_colors.back,
       title: Text(title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white,
               fontFamily: 'Gemunu',
               fontWeight: FontWeight.bold,
@@ -506,7 +509,7 @@ void showSliderDialog({
           child: Column(
             children: [
               Text('${snapshot.data?.toStringAsFixed(1)}$valueSuffix',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Gemunu',
                       fontWeight: FontWeight.bold,

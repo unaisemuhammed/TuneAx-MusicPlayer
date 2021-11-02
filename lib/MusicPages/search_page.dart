@@ -1,5 +1,5 @@
 import 'package:just_audio/just_audio.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -15,33 +15,35 @@ class _SearchState extends State<Search> {
 
   late final AudioPlayer player;
   List<SongModel> _foundUsers = [];
-  List<SongModel> Tracks = [];
+  List<SongModel> tracks = [];
 
   var songTitle;
   var songId;
   var songLocation;
 
   void getTracks() async {
-    Tracks = await audioQuery.querySongs();
+    tracks = await audioQuery.querySongs();
     setState(() {
-      Tracks = Tracks;
+      tracks = tracks;
     });
   }
 
+  @override
   void initState() {
     super.initState();
     player = AudioPlayer();
-    _foundUsers = Tracks;
+    _foundUsers = tracks;
     getTracks();
   }
 
   void _runFilter(String enteredKeyword) {
     List<SongModel> results = [];
     if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = Tracks;
+      // if the search field is empty or only contains white-space,
+      // we'll display all users
+      results = tracks;
     } else {
-      results = Tracks.where((user) =>
+      results = tracks.where((user) =>
               user.title.toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
@@ -55,24 +57,24 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    final double Heights = MediaQuery.of(context).size.height;
-    final double Weights = MediaQuery.of(context).size.width;
+    final double heights = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.back,
+        backgroundColor: app_colors.back,
         appBar: AppBar(
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           title: TextFormField(
               onChanged: (value) => _runFilter(value),
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: const TextStyle(color: Colors.white, fontSize: 20),
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
@@ -84,7 +86,7 @@ class _SearchState extends State<Search> {
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.yellow),
                   ),
-                  hintText: "Search",
+                  hintText: 'Search',
                   hintStyle: TextStyle(fontSize: 20, color: Colors.grey))),
         ),
         body: Padding(
@@ -102,44 +104,44 @@ class _SearchState extends State<Search> {
                           children: [
                             ListTile(
                               onTap: () {
-                                player.setUrl(Tracks[index].data);
+                                player.setUrl(tracks[index].data);
                                 player.play();
                               },
                               leading: QueryArtworkWidget(
                                 artworkBorder: BorderRadius.circular(8),
                                 nullArtworkWidget: Container(
-                                    width: Weights / 8,
-                                    height: Heights / 14,
+                                    width: width / 8,
+                                    height: heights / 14,
                                     decoration: BoxDecoration(
-                                        color: AppColors.shade,
+                                        color: app_colors.shade,
                                         borderRadius: BorderRadius.circular(8)),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.music_note_outlined,
                                       color: Colors.grey,
                                       size: 45,
                                     )),
-                                id: Tracks[index].id,
+                                id: tracks[index].id,
                                 type: ArtworkType.AUDIO,
                                 artworkFit: BoxFit.contain,
                               ),
                               title: Text(
                                 _foundUsers[index].title,
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                               subtitle: Text(
                                 '${_foundUsers[index].title.toString()} album',
-                                style: TextStyle(color: Colors.grey),
+                                style: const TextStyle(color: Colors.grey),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               height: 0,
                               indent: 85,
                               color: Colors.grey,
                             ),
                           ],
                         ),
-                      ) : Center(
-                        child: const Text(
+                      ) : const Center(
+                        child: Text(
                           'No results found',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),

@@ -7,8 +7,8 @@ class PlaylistModel {
 
   //TABLE COLUMNS
   static String tableName = 'playlist';
-  static String columnId = "id";
-  static String columnPlayListName = "playlistName";
+  static String columnId = 'id';
+  static String columnPlayListName = 'playlistName';
 
   PlaylistModel({
     this.id,
@@ -26,7 +26,7 @@ class PlaylistModel {
     };
   }
 
-  setSongsInPlaylist(List<PlayListSong> songsList) {
+ void setSongsInPlaylist(List<PlayListSong> songsList) {
     playListSongs.clear();
     playListSongs.addAll(songsList);
   }
@@ -41,9 +41,9 @@ class PlayListSong {
 
   static String ids = 'id';
   static String songId = 'songID';
-  static String playlistsID = "playlistID";
-  static String songsName = "songName";
-  static String songPath = "path";
+  static String playlistsID = 'playlistID';
+  static String songsName = 'songName';
+  static String songPath = 'path';
 
   PlayListSong(
       {this.id,

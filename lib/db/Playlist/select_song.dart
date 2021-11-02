@@ -1,50 +1,48 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:musicplayer/db/Playlist/OpenPlaylist.dart';
+import 'package:musicplayer/db/Playlist/open_playlist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'db_helperPla.dart';
-import 'helperPlay.dart';
 
-class SelectInside extends StatefulWidget {
- final int playlistId;
+import 'db_helper_pla.dart';
+import 'helper_play.dart';
 
-  SelectInside({Key? key, required this.playlistId}) : super(key: key);
+class SelectTrack extends StatefulWidget {
+  final int playlistId;
+  SelectTrack({Key? key, required this.playlistId}) : super(key: key);
 
   @override
-  SelectInsideState createState() => SelectInsideState();
+  SelectTrackState createState() => SelectTrackState();
 }
 
-class SelectInsideState extends State<SelectInside> {
+class SelectTrackState extends State<SelectTrack> {
   final OnAudioQuery audioQuery = OnAudioQuery();
   var songID;
   var playlistID;
   var songName;
   var path;
+  int select=0;
   List<SongModel> tracks = [];
 
   late PlaylistDatabaseHandler songAddHandler;
 
+  @override
   void initState() {
     super.initState();
     getTracks();
     songAddHandler = PlaylistDatabaseHandler();
-    // requestPermission();
-    // addSongsToPlaylist(songID, playlistID, songName, path);
   }
-  void showToast()=>Fluttertoast.showToast(msg: "Songs Added",fontSize: 18,backgroundColor: AppColors.shade);
 
-
-  Future<int> addSongsToPlaylist( var songID, var playlistID,var songName,var path) async {
-    PlayListSong firstUser = PlayListSong(
+  Future<int> addSongToPlaylist(var songID,var playlistID,var songName,var path)
+  async {final PlayListSong firstUser = PlayListSong(
         songID: songID, playlistID: playlistID, songName: songName, path: path);
-    List<PlayListSong> listOfUsers = [firstUser];
-    debugPrint("SELECTED SONG INSIDE PLAYLIST:$songID,$playlistID,$songName,$path");
+    final List<PlayListSong> listOfUsers = [firstUser];
     return await songAddHandler.insertSongs(listOfUsers);
   }
+
 
   void getTracks() async {
     tracks = await audioQuery.querySongs();
@@ -61,29 +59,39 @@ class SelectInsideState extends State<SelectInside> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: AppColors.back,
-        title: Text(
-          "Add song to playlist",
+        backgroundColor: app_colors.back,
+        title: const Text(
+          'Add song to playlist',
           style: TextStyle(fontSize: 18),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.save_outlined),
+            icon: const Icon(Icons.save_outlined),
             onPressed: () {
-              showToast();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OpenPlaylist(playlistID),));
+              if(select==1){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                    (context) => OpenPlaylist(playlistID),));
+                showToast();
+                setState(() {
+                  select=0;
+                });
+              }else{
+                showToast2();
+              }
+
+
             },
           ),
         ],
       ),
-      backgroundColor: AppColors.shade,
+      backgroundColor: app_colors.shade,
       body: Container(
-        padding: EdgeInsets.only(bottom: 0, top: 10),
+        padding: const EdgeInsets.only(bottom: 0, top: 10),
         color: Colors.transparent,
         child: ListView.builder(
             itemCount: tracks.length,
             itemBuilder: (BuildContext context, int index) {
-              if (tracks[index].data.contains("mp3"))
+              if (tracks[index].data.contains('mp3'))
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -94,9 +102,9 @@ class SelectInsideState extends State<SelectInside> {
                             width: widths / 8,
                             height: heights / 14,
                             decoration: BoxDecoration(
-                                color: AppColors.back,
+                                color: app_colors.back,
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Icon(
+                            child: const Icon(
                               Icons.music_note_outlined,
                               color: Colors.grey,
                               size: 45,
@@ -106,30 +114,35 @@ class SelectInsideState extends State<SelectInside> {
                         artworkFit: BoxFit.contain,
                       ),
                       trailing: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                         ),
                         color: Colors.white,
                         onPressed: () {
+                            setState(() {
+                              select=1;
+                            });
                             songID = tracks[index].id;
-                            playlistID = widget.playlistId;
+                            playlistID = widget.playlistId+1;
                             songName = tracks[index].title;
                             path = tracks[index].data;
-                            addSongsToPlaylist(songID, playlistID, songName, path);
+                            addSongToPlaylist(songID, playlistID, songName,
+                                path);
                         },
                       ),
                       title: Text(
                         tracks[index].title,
-                        style: TextStyle(color: Colors.white, fontSize: 17),
+                        style: const TextStyle(color: Colors.white,
+                            fontSize: 17),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                       subtitle: Text(
                         tracks[index].displayNameWOExt,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       height: 0,
                       indent: 85,
                       color: Colors.grey,
@@ -143,4 +156,9 @@ class SelectInsideState extends State<SelectInside> {
       ),
     );
   }
+  void showToast()=>Fluttertoast.showToast(msg: 'Playlist created',fontSize: 18,
+      backgroundColor: app_colors.back);
+  void showToast2()=>Fluttertoast.showToast(msg: 'Select song',fontSize: 18,
+      backgroundColor: app_colors.back);
+
 }

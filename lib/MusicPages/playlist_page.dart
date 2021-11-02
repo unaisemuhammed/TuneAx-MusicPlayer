@@ -1,12 +1,12 @@
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:flutter/material.dart';
-import 'package:musicplayer/db/Playlist/OpenPlaylist.dart';
-import 'package:musicplayer/db/Playlist/SelectSong.dart';
-import 'package:musicplayer/db/Playlist/db_helperPla.dart';
-import 'package:musicplayer/db/Playlist/helperPlay.dart';
+import 'package:musicplayer/db/Playlist/open_playlist.dart';
+import 'package:musicplayer/db/Playlist/select_song.dart';
+import 'package:musicplayer/db/Playlist/db_helper_pla.dart';
+import 'package:musicplayer/db/Playlist/helper_play.dart';
 
 class Playlist extends StatefulWidget {
-  const Playlist(playlistFolderId, {Key? key}) : super(key: key);
+  const Playlist({Key? key}) : super(key: key);
 
   @override
   PlaylistState createState() => PlaylistState();
@@ -20,9 +20,9 @@ class PlaylistState extends State<Playlist> {
   late PlaylistDatabaseHandler playlistHandler;
 
   Future<int> addPlaylist(String folderName) async {
-    PlaylistModel firstUser = PlaylistModel(playListName: folderName);
-    List<PlaylistModel> listOfUsers = [firstUser];
-    debugPrint("addPlaylistName:$folderName");
+    final PlaylistModel firstUser = PlaylistModel(playListName: folderName);
+    final List<PlaylistModel> listOfUsers = [firstUser];
+    debugPrint('addPlaylistName:$folderName');
     return await playlistHandler.insertPlaylist(listOfUsers);
   }
 
@@ -32,19 +32,19 @@ class PlaylistState extends State<Playlist> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Create a playlist',
             textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.white, fontFamily: 'Titil'),
+            style: TextStyle(color: Colors.white, fontFamily: 'Title'),
           ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return TextField(
                 maxLength: 12,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 controller: folderController,
                 autofocus: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: 'Enter folder name',
                     hintStyle: TextStyle(color: Colors.grey)),
                 onChanged: (val) {
@@ -69,9 +69,10 @@ class PlaylistState extends State<Playlist> {
                       });
                       Navigator.pop(context);
                     },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(fontSize: 20, fontFamily: "Titil",color: Colors.white),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontSize: 20, fontFamily: 'Title',
+                          color: Colors.white),
                     ),
                   ),
                 ),
@@ -97,9 +98,10 @@ class PlaylistState extends State<Playlist> {
                         print('   playlistFolderIdr=$playlistFolderId');
                       }
                     },
-                    child: Text(
-                      "Create",
-                      style: TextStyle(fontSize: 20, fontFamily: "Titil",color: Colors.white),
+                    child: const Text(
+                      'Create',
+                      style: TextStyle(fontSize: 20, fontFamily: 'Title',
+                          color: Colors.white),
                     ),
                   ),
                 )
@@ -108,7 +110,7 @@ class PlaylistState extends State<Playlist> {
           ],
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
         );
       },
     );
@@ -132,27 +134,26 @@ class PlaylistState extends State<Playlist> {
 
   @override
   Widget build(BuildContext context) {
-
     final double height = MediaQuery.of(context).size.height;
     // final double width = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.shade,
+        backgroundColor: app_colors.shade,
         body: Container(
-          padding: EdgeInsets.only(bottom: 0, top: 10),
+          padding: const EdgeInsets.only(bottom: 0, top: 10),
           child: Stack(
             children: [
               Positioned(
                 child: FutureBuilder(
-                  future: this.playlistHandler.retrievePlaylist(),
+                  future: playlistHandler.retrievePlaylist(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<PlaylistModel>> snapshot) {
                     if (snapshot.hasData) {
                       return GridView.builder(
                           itemCount: snapshot.data?.length,
                           gridDelegate:
-                          SliverGridDelegateWithMaxCrossAxisExtent(
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 180,
                             mainAxisSpacing: 10,
                             crossAxisSpacing: 0,
@@ -160,12 +161,14 @@ class PlaylistState extends State<Playlist> {
                           itemBuilder: (context, index) {
                             playlistFolderId = snapshot.data![index].id!;
                             return Container(
-                              padding: EdgeInsets.all(6),
+                              padding: const EdgeInsets.all(6),
                               child: Stack(
                                 children: [
                                   GestureDetector(
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => OpenPlaylist(snapshot.data![index].id!),));
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => OpenPlaylist(
+                                            snapshot.data![index].id!),));
                                     },
                                     onLongPress: () {
                                       showDialog<void>(
@@ -174,22 +177,22 @@ class PlaylistState extends State<Playlist> {
                                         // user must tap button!
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            backgroundColor: AppColors.back,
-                                            title: Text(
-                                              'Are you sure to delete this folder?',
+                                            backgroundColor: app_colors.back,
+                                            title: const Text(
+                                              'Are you sure to delete this '
+                                                  'folder?',
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontFamily: 'Titil'),
+                                                  fontFamily: 'Title'),
                                             ),
                                             actions: <Widget>[
                                               TextButton(
-                                                child: Text('Yes',
+                                                child: const Text('Yes',
                                                     style: TextStyle(
                                                         fontSize: 18,
-                                                        fontFamily: 'Titil')),
+                                                        fontFamily: 'Title')),
                                                 onPressed: () async {
-                                                  await this
-                                                      .playlistHandler
+                                                  await playlistHandler
                                                       .deletePlaylist(snapshot
                                                       .data![index].id!);
                                                   setState(() {
@@ -200,11 +203,11 @@ class PlaylistState extends State<Playlist> {
                                                 },
                                               ),
                                               TextButton(
-                                                child: Text(
+                                                child: const Text(
                                                   'No',
                                                   style: TextStyle(
                                                       fontSize: 18,
-                                                      fontFamily: 'Titil'),
+                                                      fontFamily: 'Title'),
                                                 ),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
@@ -219,23 +222,24 @@ class PlaylistState extends State<Playlist> {
                                       children: [
                                         Container(
                                           width: double.infinity,
-                                          padding: EdgeInsets.all(5),
-                                          child: Icon(
-                                            Icons.folder_open,
-                                            size: 80,
+                                          padding: const EdgeInsets.all(5),
+                                          child: const Icon(
+                                            Icons.music_note_outlined,
+                                            size: 70,
                                             color: Colors.grey,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: AppColors.back,
+                                            color: app_colors.back,
                                             borderRadius:
                                             BorderRadius.circular(10),),
                                         ),
                                         Text(
-                                          '${snapshot.data![index].playListName}',
-                                          style: TextStyle(
+                                          '${snapshot.data![index].playListName
+                                          }',
+                                          style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
-                                              fontFamily: 'Titil'),
+                                              fontFamily: 'Title'),
                                         ),
                                       ],
                                     ),
@@ -245,7 +249,7 @@ class PlaylistState extends State<Playlist> {
                             );
                           });
                     } else {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                   },
                 ),
@@ -255,7 +259,7 @@ class PlaylistState extends State<Playlist> {
                 right: 30,
                 child: Ink(
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.add,
                       color: Colors.white,
                       size: 50,
@@ -265,8 +269,8 @@ class PlaylistState extends State<Playlist> {
                       print('playlistFolderIdu=$playlistFolderId');
                     },
                   ),
-                  decoration: ShapeDecoration(
-                      color: AppColors.back, shape: CircleBorder()),
+                  decoration: const ShapeDecoration(
+                      color: app_colors.back, shape: CircleBorder()),
                   height: 65,
                   width: 65,
                 ),

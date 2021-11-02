@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:musicplayer/MusicPages/Cnplaylist.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
-import 'package:musicplayer/db/Playlist/SelectInside.dart';
+import 'package:musicplayer/MusicPages/controller_playlist_fav.dart';
+import 'package:musicplayer/colors.dart' as app_colors;
+import 'package:musicplayer/db/Playlist/select_song_inside.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import 'db_helperPla.dart';
-import 'helperPlay.dart';
+import 'db_helper_pla.dart';
+import 'helper_play.dart';
 
 class OpenPlaylist extends StatefulWidget {
- final int id;
+  final int id;
 
   OpenPlaylist(this.id, {Key? key}) : super(key: key);
 
@@ -19,7 +19,8 @@ class OpenPlaylist extends StatefulWidget {
 }
 
 class _OpenPlaylistState extends State<OpenPlaylist> {
-  final GlobalKey<MusicControllsState> key = GlobalKey<MusicControllsState>();
+  final GlobalKey<MusicControllerPlayAndFavState> key =
+      GlobalKey<MusicControllerPlayAndFavState>();
   final OnAudioQuery audioQuery = OnAudioQuery();
   late PlaylistDatabaseHandler songsHandler;
   int playlistFolderId = 0;
@@ -65,12 +66,12 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
     final double weights = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.back,
+        backgroundColor: app_colors.back,
         appBar: AppBar(
           actions: [
             IconButton(
-              padding: EdgeInsets.only(right: 20, top: 10),
-              icon: Icon(
+              padding: const EdgeInsets.only(right: 20, top: 10),
+              icon: const Icon(
                 Icons.add,
                 size: 30,
               ),
@@ -87,7 +88,7 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
           ],
           leadingWidth: 50,
           leading: IconButton(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 25,
               top: 16,
             ),
@@ -96,14 +97,14 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: Text(
+          title: const Text(
             'Add Songs',
             style: TextStyle(
                 color: Colors.white, fontSize: 25, fontFamily: 'Titil'),
           ),
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           elevation: 0,
         ),
         body: Stack(
@@ -112,30 +113,31 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
                 top: 20,
                 child: Container(
                   width: weights,
-                  child: Center(
-                      child: Icon(
-                    Icons.music_note_outlined,
-                    color: Colors.white,
-                    size: 90,
-                  )),
-                  color: AppColors.back,
+                  child: const Center(
+                    child: Icon(
+                      Icons.music_note_outlined,
+                      color: Colors.white,
+                      size: 90,
+                    ),
+                  ),
+                  color: app_colors.back,
                 )),
             Positioned(
               child: DraggableScrollableSheet(
                 initialChildSize: 0.7,
                 minChildSize: 0.7,
                 maxChildSize: 1.0,
-                builder: (BuildContext context, myscrollController) {
+                builder: (BuildContext context, myScrollController) {
                   return Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25),
                           topRight: Radius.circular(25)),
-                      color: AppColors.shade,
+                      color: app_colors.shade,
                     ),
                     child: FutureBuilder(
-                      future: this.songsHandler.retrieveSingleSong(widget.id),
+                      future: songsHandler.retrieveSingleSong(widget.id),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<PlayListSong>> snapshot) {
                         if (snapshot.hasData) {
@@ -148,28 +150,29 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
                                     leading: QueryArtworkWidget(
                                       artworkBorder: BorderRadius.circular(8),
                                       nullArtworkWidget: Container(
-                                          width: weights / 8,
-                                          height: heights / 14,
-                                          decoration: BoxDecoration(
-                                              color: AppColors.back,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: Icon(
-                                            Icons.music_note_outlined,
-                                            color: Colors.grey,
-                                            size: 45,
-                                          )),
+                                        width: weights / 8,
+                                        height: heights / 14,
+                                        decoration: BoxDecoration(
+                                            color: app_colors.back,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: const Icon(
+                                          Icons.music_note_outlined,
+                                          color: Colors.grey,
+                                          size: 45,
+                                        ),
+                                      ),
                                       id: snapshot.data![index].songID,
                                       type: ArtworkType.AUDIO,
                                       artworkFit: BoxFit.contain,
                                     ),
                                     trailing: IconButton(
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.delete,
                                         color: Colors.grey,
                                       ),
                                       onPressed: () async {
-                                        await this.songsHandler.deleteSongs(
+                                        await songsHandler.deleteSongs(
                                             snapshot.data![index].id!);
                                         setState(() {
                                           snapshot.data!
@@ -190,7 +193,7 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  MusicControlls(
+                                                  MusicControllerPlayAndFav(
                                                     changeTrack: changeTrack,
                                                     songInfo: tracksQuery[
                                                         currentIndex],
@@ -199,17 +202,18 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
                                     },
                                     title: Text(
                                       snapshot.data![index].songName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white, fontSize: 17),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
                                     subtitle: Text(
                                       snapshot.data![index].songName,
-                                      style: TextStyle(color: Colors.grey),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
                                     ),
                                   ),
-                                  Divider(
+                                  const Divider(
                                     height: 0,
                                     indent: 85,
                                     color: Colors.grey,
@@ -219,9 +223,9 @@ class _OpenPlaylistState extends State<OpenPlaylist> {
                             },
                           );
                         } else {
-                          return Center(
+                          return const Center(
                               child: Text(
-                            "No song added",
+                            'No song added',
                             style: TextStyle(color: Colors.grey, fontSize: 16),
                           ));
                         }

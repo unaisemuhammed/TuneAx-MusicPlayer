@@ -1,15 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:musicplayer/MusicPages/SettingsPage.dart';
-import 'FavouritePage.dart';
-import 'MusicControllPage.dart';
-import 'PlaylistPage.dart';
-import 'SearchPage.dart';
-import 'TrackPage.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/MusicPages/settings_page.dart';
+import 'favourite_page.dart';
+import 'playlist_page.dart';
+import 'search_page.dart';
+import 'track_page.dart';
+import 'package:musicplayer/colors.dart' as app_colors;
 
-var _pages = [Track(), Favourite(), Playlist(int)];
-List Title = ["Playlist", "Track", "Favourite", "Folder"];
+var _pages = [Track(), const Favourite(), const Playlist()];
+List title = ['Playlist', 'Track', 'Favourite', 'Folder'];
 
 class SlidePage extends StatefulWidget {
   const SlidePage({Key? key}) : super(key: key);
@@ -31,34 +30,34 @@ class _SlidePageState extends State<SlidePage> {
 
   @override
   Widget build(BuildContext context) {
-    final double Heights = MediaQuery.of(context).size.height;
-    final double Weights = MediaQuery.of(context).size.width;
+    final double heights = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: 3,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           appBar: AppBar(
-            bottom: TabBar(
+            bottom: const TabBar(
               dragStartBehavior: DragStartBehavior.down,
               tabs: [
                 Tab(
-                  text: "Track",
+                  text: 'Track',
                 ),
                 Tab(
-                  text: "Favourite",
+                  text: 'Favourite',
                 ),
                 Tab(
-                  text: "Playlist",
+                  text: 'Playlist',
                 ),
               ],
               indicatorColor: Colors.white70,
               unselectedLabelColor: Colors.white60,
               unselectedLabelStyle:
-              TextStyle(fontSize: 16, fontFamily: "Titil"),
+              TextStyle(fontSize: 16, fontFamily: 'Title'),
               labelStyle: TextStyle(
                   fontSize: 18,
-                  fontFamily: "Titil",
+                  fontFamily: 'Title',
                   fontWeight: FontWeight.w500),
             ),
             toolbarHeight: 70,
@@ -69,10 +68,10 @@ class _SlidePageState extends State<SlidePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Search(),
+                        builder: (context) => const Search(),
                       ));
                 },
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 iconSize: 30,
               ),
               IconButton(
@@ -80,21 +79,21 @@ class _SlidePageState extends State<SlidePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Settings(),
+                        builder: (context) => const Settings(),
                       ),
                     );
                   },
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                   iconSize: 25),
             ],
-            title: Text(
-              "TUNE " "Ax",
+            title: const Text(
+              'TUNE ' 'Ax',
               style: TextStyle(
                   fontSize: 25,
-                  fontFamily: 'Gemunu',
+                  fontFamily: 'Geman',
                   fontWeight: FontWeight.bold),
             ),
-            backgroundColor: AppColors.back,
+            backgroundColor: app_colors.back,
           ),
 
           ///PageView///
@@ -115,28 +114,28 @@ class _SlidePageState extends State<SlidePage> {
 
               ///ShadedPart///
               Positioned(
-                top: Heights / 2000,
+                top: heights / 2000,
                 right: 0,
                 left: 0,
-                height: Heights / 25,
+                height: heights / 25,
                 child: Container(
                   child: ColorFiltered(
                     colorFilter:
-                    ColorFilter.mode(AppColors.back, BlendMode.srcOut),
+                    const ColorFilter.mode(app_colors.back, BlendMode.srcOut),
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.shade,
+                          decoration: const BoxDecoration(
+                              color: app_colors.shade,
                               backgroundBlendMode: BlendMode.dstOut),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 4),
-                          height: Heights,
-                          width: Weights,
-                          decoration: BoxDecoration(
-                            color: AppColors.shade,
+                          height: heights,
+                          width: width,
+                          decoration: const BoxDecoration(
+                            color: app_colors.shade,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(50),
                               topLeft: Radius.circular(50),

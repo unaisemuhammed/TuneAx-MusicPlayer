@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:musicplayer/db/Favourite/db_helper.dart';
 import 'package:musicplayer/db/Favourite/helper.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-
-import 'Cnplaylist.dart';
+import 'controller_playlist_fav.dart';
 
 class Favourite extends StatefulWidget {
   const Favourite({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class FavouriteState extends State<Favourite> {
   dynamic favTracks = [];
   List<SongModel> tracks = [];
   List <dynamic> dbTracks=[];
-  final GlobalKey<MusicControllsState> key = GlobalKey<MusicControllsState>();
+  final GlobalKey<MusicControllerPlayAndFavState> key = GlobalKey<MusicControllerPlayAndFavState>();
   final OnAudioQuery audioQuery = OnAudioQuery();
   late final AudioPlayer player;
   int currentIndex = 0;
@@ -46,13 +45,13 @@ class FavouriteState extends State<Favourite> {
     });
   }
   void getDbTrac() async {
-    dbTracks = await this.handler.retrieveFavSongs();
+    dbTracks = await handler.retrieveFavSongs();
     setState(() {
       dbTracks = dbTracks;
     });
   }
   void getFavSong() async {
-    favTracks = await this.handler.retrieveFavSongs();
+    favTracks = await handler.retrieveFavSongs();
     setState(() {
       favTracks =favTracks;
     });
@@ -77,11 +76,11 @@ class FavouriteState extends State<Favourite> {
     final double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.shade,
+        backgroundColor: app_colors.shade,
         body: Container(
-          padding: EdgeInsets.only(bottom: 0, top: 10),
+          padding: const EdgeInsets.only(bottom: 0, top: 10),
           child: FutureBuilder(
-            future: this.handler.retrieveFavSongs(),
+            future: handler.retrieveFavSongs(),
             builder:
                 (BuildContext context, AsyncSnapshot<List<Songs>> snapshot) {
               if (snapshot.hasData) {
@@ -100,7 +99,7 @@ class FavouriteState extends State<Favourite> {
                             }
                               favTracks = snapshot.data![index].location;
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => MusicControlls(
+                                builder: (context) => MusicControllerPlayAndFav(
                                       changeTrack: changeTrack,
                                       songInfo: tracks[currentIndex],
                                       key: key,
@@ -112,9 +111,9 @@ class FavouriteState extends State<Favourite> {
                                 width: width / 8,
                                 height: heights / 14,
                                 decoration: BoxDecoration(
-                                    color: AppColors.back,
+                                    color: app_colors.back,
                                     borderRadius: BorderRadius.circular(8)),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.music_note_outlined,
                                   color: Colors.grey,
                                   size: 45,
@@ -124,13 +123,14 @@ class FavouriteState extends State<Favourite> {
                             artworkFit: BoxFit.contain,
                           ),
                           trailing: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.delete,
                               color: Colors.grey,
                             ),
                             onPressed: () async {
                               showToast();
-                              await this.handler.deleteFavSongs(snapshot.data![index].num);
+                              await handler.deleteFavSongs(
+                                  snapshot.data![index].num);
                               setState(() {
                                 snapshot.data!.remove(snapshot.data![index].num);
                               });
@@ -138,16 +138,17 @@ class FavouriteState extends State<Favourite> {
                           ),
                           title: Text(
                             snapshot.data![index].name,
-                            style: TextStyle(color: Colors.white, fontSize: 17),
+                            style: const TextStyle(color: Colors.white,
+                                fontSize: 17),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          subtitle: Text(
-                            "ariana Grande",
+                          subtitle: const Text(
+                            'ariana Grande',
                             style: TextStyle(color: Colors.grey),
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           height: 0,
                           indent: 85,
                           color: Colors.grey,
@@ -157,7 +158,7 @@ class FavouriteState extends State<Favourite> {
                   },
                 );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),
@@ -165,6 +166,7 @@ class FavouriteState extends State<Favourite> {
       ),
     );
   }
-  void showToast()=>Fluttertoast.showToast(msg: "Deleted From Favourite",fontSize: 18,backgroundColor: AppColors.shade);
+  void showToast()=>Fluttertoast.showToast(msg: 'Deleted From Favourite',
+      fontSize: 18,backgroundColor: app_colors.back);
 
 }

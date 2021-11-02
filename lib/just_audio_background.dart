@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class SeekBar extends StatefulWidget {
@@ -34,8 +33,8 @@ class _SeekBarState extends State<SeekBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double Heights = MediaQuery.of(context).size.height;
-    final double Weights = MediaQuery.of(context).size.width;
+    // final double heights = MediaQuery.of(context).size.height;
+    // final double width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         SliderTheme(
@@ -70,20 +69,22 @@ class _SeekBarState extends State<SeekBar> {
           right: 25,
           child: Text(
               RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                  .firstMatch("$_remaining")
+                  .firstMatch('$_remaining')
                   ?.group(1) ??
                   '$_remaining',
-              style: TextStyle(color: Colors.white70,fontFamily: 'Gemunu',fontSize: 18)),
+              style: const TextStyle(color: Colors.white70,fontFamily: 'Geman',
+                  fontSize: 18)),
         ),
         Positioned(
           bottom: -4,
           left: 25,
           child: Text(
               RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                  .firstMatch("$_position")
+                  .firstMatch('$_position')
                   ?.group(1) ??
                   '$_position',
-              style: TextStyle(color: Colors.white70,fontFamily: 'Gemunu',fontSize: 18)),
+              style: const TextStyle(color: Colors.white70,fontFamily:
+              'Geman',fontSize: 18)),
         ),
       ],
     );

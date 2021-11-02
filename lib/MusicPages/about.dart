@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -18,34 +18,34 @@ class _AboutState extends State<About> {
     // final double Weights = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.shade,
+        backgroundColor: app_colors.back,
         appBar: AppBar(
           actions: [
             Container(
-                padding: EdgeInsets.only(right: 20, top: 0),
-                child: Icon(
+                padding: const EdgeInsets.only(right: 20, top: 0),
+                child: const Icon(
                   Icons.info,
                   color: Colors.white,
                 ))
           ],
           leading: IconButton(
-            padding: EdgeInsets.only(left: 20, top: 20),
+            padding: const EdgeInsets.only(left: 20, top: 20),
             color: Colors.white,
             alignment: Alignment.topLeft,
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: AppColors.shade,
+          backgroundColor: app_colors.back,
           elevation: 0,
         ),
         body: Stack(
           children: [
             Container(
-              color: AppColors.shade,
-              padding: EdgeInsets.only(top: 100),
-              child: Center(
+              color: app_colors.back,
+              padding: const EdgeInsets.only(top: 100),
+              child: const Center(
                 child: Text(
                   '''About TUNE '''
                   '''Ax''',
@@ -53,7 +53,7 @@ class _AboutState extends State<About> {
                       color: Colors.white,
                       fontSize: 50,
                       letterSpacing: 5,
-                      fontFamily: 'Gemunu',
+                      fontFamily: 'Geman',
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -68,22 +68,22 @@ class _AboutState extends State<About> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AboutSection(),
+                        builder: (context) => const AboutSection(),
                       ));
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: AppColors.back,
+                      color: app_colors.shade,
                       borderRadius: BorderRadius.circular(30)),
                   width: 300,
                   height: 60,
-                  child: Center(
+                  child: const Center(
                     child: Text(
-                      "Terms and Condition",
+                      'Terms and Condition',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontFamily: 'Titil',
+                          fontFamily: 'Title',
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -123,10 +123,9 @@ class _AboutState extends State<About> {
             // ),
             Positioned(
               child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   alignment: Alignment.center,
-                  child: Text(
-                    "",
+                  child: const Text('',
                     style: TextStyle(color: Colors.white30),
                   )),
             ),
@@ -150,74 +149,104 @@ class _AboutSectionState extends State<AboutSection> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "TERMS and Conditions",
+        title: const Text(
+          'Terms and Conditions',
           style: TextStyle(
             color: Colors.white,
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            fontFamily: 'Gemunu',
+            fontFamily: 'Geman',
           ),
         ),
-        backgroundColor: AppColors.shade,
+        backgroundColor: app_colors.back,
         elevation: 0,
       ),
-      backgroundColor: AppColors.shade,
+      backgroundColor: app_colors.back,
       body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
-              children: [
+              children: const [
                 Text(
-                  "Tune Ax TERMS OF SERVICE",
+                  'Tune Ax TERMS OF SERVICE',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
-                    fontFamily: 'Titil',
+                    fontFamily: 'Title',
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
                 Text(
-                  "IMPORTANT – READ CAREFULLY. THESE TERMS OF SERVICE (“TOS”) ARE A LEGAL AGREEMENT BETWEEN YOU AND TuneAx ELECTRONICS CO.,"
-                  " LTD. AND ITS AFFILIATES (COLLECTIVELY, “TuneAx”) FOR THE SAMSUNG MUSIC APPLICATION AND ANY RELEVANT SOFTWARE OR "
-                  "DOCUMENTATION THEREOF (COLLECTIVELY, THE “SERVICE”) PROVIDED BY SAMSUNG OR ITS THIRD PARTY SUPPLIERS OR LICENSORS."
-                  " BY AGREEING TO THESE TOS OR BY INSTALLING OR OTHERWISE USING THE SERVICE, YOU AGREE TO BE BOUND BY THESE TOS. IF "
-                  "YOU DO NOT AGREE TO THESE TOS, THEN DO NOT INSTALL OR USE THE SERVICE.",
+                  'IMPORTANT – READ CAREFULLY. THESE TERMS OF SERVICE (“TOS”) '
+                      'ARE A LEGAL AGREEMENT BETWEEN YOU AND TuneAx ELECTRONICS'
+                      'CO.,'
+                  ' LTD. AND ITS AFFILIATES (COLLECTIVELY, “TuneAx”) FOR THE '
+                      'SAMSUNG MUSIC APPLICATION AND ANY RELEVANT SOFTWARE OR '
+                  'DOCUMENTATION THEREOF (COLLECTIVELY, THE “SERVICE”) PROVIDED'
+                      ' BY SAMSUNG OR ITS THIRD PARTY SUPPLIERS OR LICENSORS.'
+                  ' BY AGREEING TO THESE TOS OR BY INSTALLING OR OTHERWISE'
+                      ' USING THE SERVICE, YOU AGREE TO BE BOUND BY THESE TOS.'
+                      ' IF YOU DO NOT AGREE TO THESE TOS, THEN DO NOT INSTALL'
+                      ' OR USE THE SERVICE.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontFamily: 'Titil',
+                    fontFamily: 'Title',
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
                 Text(
-                  "TuneAx Music is a music player application that allows a seamless and easy playlist management."
-                  " With TuneAx Music, you can play your music according to various categories, such as genre, artist and etc.",
+                  'TuneAx Music is a music player application that allows a '
+                      'seamless and easy playlist management.'
+                  ' With TuneAx Music, you can play your music according to '
+                      'various categories, such as genre, artist and etc.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontFamily: 'Titil',
+                    fontFamily: 'Title',
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
                 Text(
-                  "1. Grant of License"
-                  "Subject to the terms of these TOS, you are granted a limited, non-exclusive, and revocable license to install,"
-                  "access and use the SERVICE. The services and features provided by the SERVICE or Update (defined below) thereto "
-                  "may vary or be limited depending on certain factors, including, without limitation, your country, device, operating system,"
-                  "or network operator. If you are 13 or older but under the age of 18, you represent that you have reviewed these TOS with your "
-                  "parent or legal guardian and that you and your parent or guardian understands and consents to the terms and conditions of these TOS."
-                  "If you are a parent or guardian permitting a person under the age of 18 ('Minor') to use the SERVICE, you agree to: (i) supervise"
-                  "the Minor's use of the SERVICE; (ii) assume all risks associated with the Minor’s use of the SERVICE, (iii) assume any liability resulting "
-                  'from the Minor’s use of the SERVICE; (iv) ensure the accuracy and truthfulness of all information submitted by the Minor; and '
-                  "(v) assume responsibility and are bound by this Agreement for the Minor’s access and use of the SERVICE.",
+                  '1. Grant of License'
+                  'Subject to the terms of these TOS, you are granted a limited'
+                      'non-exclusive, and revocable license to install,'
+                  'access and use the SERVICE. The services and features '
+                      'provided'
+                      ' by the SERVICE or Update (defined below) thereto '
+                  'may vary or be limited depending on certain factors, '
+                      'including,'
+                      ' without limitation, your country, device, operating '
+                      'system,'
+                  'or network operator. If you are 13 or older but under the '
+                      'age'
+                      ' of 18, you represent that you have reviewed these TOS '
+                      'with your '
+                  'parent or legal guardian and that you and your parent or '
+                      'guardian'
+                      ' understands and consents to the terms and conditions of'
+                      ' these TOS.'
+                  'If you are a parent or guardian permitting a person under'
+                      ' the'
+                      " age of 18 ('Minor') to use the SERVICE, you agree to:"
+                      ' (i) supervise'
+                  "the Minor's use of the SERVICE; (ii) assume all risks "
+                      'associated with the Minor’s use of the SERVICE, (iii)'
+                      'assume any liability resulting '
+                  'from the Minor’s use of the SERVICE; (iv) ensure the'
+                      ' accuracy'
+                      ' and truthfulness of all information submitted by'
+                      ' the Minor; and '
+                  '(v) assume responsibility and are bound by this Agreement '
+                      'for '
+                      'the Minor’s access and use of the SERVICE.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

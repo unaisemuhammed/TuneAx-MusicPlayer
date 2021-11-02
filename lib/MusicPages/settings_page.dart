@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 
-import 'About.dart';
+import 'about.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -16,22 +16,22 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    final double Heights = MediaQuery.of(context).size.height;
-    final double Weights = MediaQuery.of(context).size.width;
+    final double heights = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.back,
+        backgroundColor: app_colors.back,
         appBar: AppBar(
           leading: IconButton(
-            padding: EdgeInsets.only(left: 20, top: 20),
+            padding: const EdgeInsets.only(left: 20, top: 20),
             color: Colors.white,
             alignment: Alignment.topLeft,
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           elevation: 0,
         ),
         body: Stack(
@@ -39,23 +39,23 @@ class _SettingsState extends State<Settings> {
             Positioned(
               left: 0,
               right: 0,
-              top: Heights,
-              height: Heights,
+              top: heights,
+              height: heights,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
-                height: Heights,
-                width: Weights,
+                height: heights,
+                width: width,
               ),
             ),
             ListView(
               scrollDirection: Axis.vertical,
               children: [
                 Container(
-                  color: AppColors.back,
-                  padding: EdgeInsets.only(top: 100),
-                  child: Center(
+                  color: app_colors.back,
+                  padding: const EdgeInsets.only(top: 100),
+                  child: const Center(
                     child: Text(
                       '''TUNE '''
                       '''Ax''',
@@ -63,22 +63,22 @@ class _SettingsState extends State<Settings> {
                           color: Colors.white,
                           fontSize: 50,
                           letterSpacing: 5,
-                          fontFamily: 'Gemunu',
+                          fontFamily: 'Geman',
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                   height: 150,
                 ),
                 Container(
-                  color: AppColors.back,
-                  padding: EdgeInsets.only(bottom: 50),
-                  child: Center(
+                  color: app_colors.back,
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: const Center(
                     child: Text(
-                      "settings",
+                      'settings',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 40,
-                        fontFamily: 'Bebas',
+                        fontFamily: 'Babas',
                       ),
                     ),
                   ),
@@ -90,37 +90,38 @@ class _SettingsState extends State<Settings> {
                 //   height: 100,
                 //   child: IconButton(color: Colors.white,
                 //     alignment: Alignment.topLeft,
-                //       onPressed: (){Navigator.pop(context);},icon: Icon(Icons.arrow_back_ios),),
+                //       onPressed: (){Navigator.pop(context);},
+                //       icon: Icon(Icons.arrow_back_ios),),
                 // ),
                 Container(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20),
                   height: 30,
-                  child: Text(
-                    "Privacy",
+                  child: const Text(
+                    'Privacy',
                     style: TextStyle(
-                        color: AppColors.subtitle,
+                        color: app_colors.subtitle,
                         fontSize: 18,
-                        fontFamily: "Titil",
+                        fontFamily: 'Title',
                         fontWeight: FontWeight.w600),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     children: [
                       ListTile(
                         // dense: true,
-                        title: Text(
-                          "Privacy and Security",
+                        title: const Text(
+                          'Privacy and Security',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        subtitle: Text(
-                          "Read and listen our privacy and policy",
+                        subtitle: const Text(
+                          'Read and listen our privacy and policy',
                           style: TextStyle(color: Colors.grey),
                         ),
                         trailing: IconButton(
-                          padding: EdgeInsets.only(right: 20),
-                          icon: Icon(
+                          padding: const EdgeInsets.only(right: 20),
+                          icon: const Icon(
                             Icons.lock,
                             color: Colors.white,
                             size: 25,
@@ -128,23 +129,23 @@ class _SettingsState extends State<Settings> {
                           onPressed: () {},
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         height: 10,
                         color: Colors.grey,
                       ),
                       ListTile(
                         // dense: true,
-                        title: Text(
-                          "Help and Support",
+                        title: const Text(
+                          'Help and Support',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        subtitle: Text(
-                          "Let us know your problems",
+                        subtitle: const Text(
+                          'Let us know your problems',
                           style: TextStyle(color: Colors.grey),
                         ),
                         trailing: IconButton(
-                          padding: EdgeInsets.only(right: 20),
-                          icon: Icon(
+                          padding: const EdgeInsets.only(right: 20),
+                          icon: const Icon(
                             Icons.headset_mic_outlined,
                             color: Colors.white,
                             size: 30,
@@ -162,51 +163,51 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                   height: 180,
-                  width: Heights,
+                  width: heights,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: AppColors.shade),
+                      color: app_colors.shade),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 10, left: 20),
+                  padding: const EdgeInsets.only(top: 10, left: 20),
                   height: 40,
-                  child: Text(
-                    "Information",
+                  child: const Text(
+                    'Information',
                     style: TextStyle(
-                        color: AppColors.subtitle,
+                        color: app_colors.subtitle,
                         fontSize: 18,
-                        fontFamily: "Titil",
+                        fontFamily: 'Title',
                         fontWeight: FontWeight.w600),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   height: 180,
-                  width: Heights,
+                  width: heights,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: AppColors.shade),
+                      color: app_colors.shade),
                   child: Column(
                     children: [
                       ListTile(
                         onTap: () {},
                         trailing: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.share,
                             color: Colors.white,
                           ),
                           onPressed: () {},
                         ),
-                        title: Text(
-                          "Share Tune Ax",
+                        title: const Text(
+                          'Share Tune Ax',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        subtitle: Text(
-                          "Share this app to your friends.",
+                        subtitle: const Text(
+                          'Share this app to your friends.',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         height: 10,
                         color: Colors.grey,
                       ),
@@ -215,19 +216,20 @@ class _SettingsState extends State<Settings> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => About(),
+                                builder: (context) => const About(),
                               ));
                         },
-                        trailing: Icon(
+                        trailing: const Icon(
                           Icons.info_rounded,
                           color: Colors.white,
                         ),
-                        title: Text(
-                          "About Tune Ax",
+                        title: const Text(
+                          'About Tune Ax',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                        subtitle: Text(
-                          "Everything about Tune Ax you can read terms and conditions.",
+                        subtitle: const Text(
+                          'Everything about Tune Ax you can'
+                              ' read terms and conditions.',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -236,40 +238,41 @@ class _SettingsState extends State<Settings> {
                 ),
 
                 Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     alignment: Alignment.center,
-                    child: Text(
-                      "Powered by Tune Ax",
+                    child: const Text(
+                      'Powered by Tune Ax',
                       style: TextStyle(color: Colors.white30),
                     ))
               ],
             ),
 
-            /// shadedHolllow///
+            /// shadedHollow///
             Positioned(
-              top: Heights / 2000,
+              top: heights / 2000,
               right: 0,
               left: 0,
-              height: Heights / 8,
+              height: heights / 8,
               child: Container(
                 child: ColorFiltered(
                   colorFilter:
-                      ColorFilter.mode(AppColors.back, BlendMode.srcOut),
+                      const ColorFilter.mode(app_colors.back, BlendMode.srcOut),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.shade,
+                        decoration: const BoxDecoration(
+                            color: app_colors.shade,
                             backgroundBlendMode: BlendMode
-                                .dstOut), // This one will handle background + difference out
+                                .dstOut), // This one will handle background +
+                        // difference out
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 40),
-                        height: Heights,
-                        width: Weights,
-                        decoration: BoxDecoration(
-                          color: AppColors.shade,
+                        height: heights,
+                        width: width,
+                        decoration: const BoxDecoration(
+                          color: app_colors.shade,
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(30),
                             topLeft: Radius.circular(30),

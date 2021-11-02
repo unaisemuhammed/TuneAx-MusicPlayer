@@ -3,32 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:marquee/marquee.dart';
-import 'package:musicplayer/colors.dart' as AppColors;
+import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:musicplayer/db/Favourite/db_helper.dart';
 import 'package:musicplayer/db/Favourite/helper.dart';
-import 'package:musicplayer/db/Playlist/SelectPlaylist.dart';
+import 'package:musicplayer/db/Playlist/select_playlist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:rxdart/rxdart.dart';
+import '../just_audio_background.dart';
 
-import '../justAudioBackground.dart';
-
-class MusicControll extends StatefulWidget {
+class MusicController extends StatefulWidget {
   SongModel songInfo;
 
-  MusicControll({
+  MusicController({
     required this.songInfo,
     required this.changeTrack,
     required this.key,
   }) : super(key: key);
   Function changeTrack;
-  final GlobalKey<MusicControllState> key;
+  @override
+  final GlobalKey<MusicControllerState> key;
 
   @override
-  MusicControllState createState() => MusicControllState();
+  MusicControllerState createState() => MusicControllerState();
 }
 
-class MusicControllState extends State<MusicControll> {
+class MusicControllerState extends State<MusicController> {
   final OnAudioQuery audioQuery = OnAudioQuery();
 
   double minimumValue = 0.0, maximumValue = 0.0, currentValue = 0.0;
@@ -46,11 +45,11 @@ class MusicControllState extends State<MusicControll> {
 // TODO: implement initState
     super.initState();
     handler = DatabaseHandler();
-    // addUsers(songTitle, songId, songLocation);
     setSong(widget.songInfo);
     player.play();
   }
 
+  @override
   void dispose() {
     super.dispose();
     player.dispose();
@@ -65,12 +64,12 @@ class MusicControllState extends State<MusicControll> {
               PositionData(position, duration ?? Duration.zero));
 
   Future<int> addUsers(songTitle, songId, songLocation) async {
-    Songs firstUser =
+    final Songs firstUser =
         Songs(name: songTitle, num: songId, location: songLocation);
-    List<Songs> listOfUsers = [firstUser];
-    debugPrint("ADNAN:$songTitle");
-    debugPrint("ADNAN: $songId");
-    debugPrint("ADNAN: $songLocation");
+    final List<Songs> listOfUsers = [firstUser];
+    debugPrint('ADNAN:$songTitle');
+    debugPrint('ADNAN: $songId');
+    debugPrint('ADNAN: $songLocation');
     return await handler!.insertFavSongs(listOfUsers);
   }
 
@@ -119,7 +118,7 @@ class MusicControllState extends State<MusicControll> {
   }
 
   String getDuration(double value) {
-    Duration duration = Duration(milliseconds: value.round());
+    final Duration duration = Duration(milliseconds: value.round());
     return [duration.inMinutes, duration.inSeconds]
         .map((element) => element.remainder(60).toString().padLeft(2, '0'))
         .join(':');
@@ -134,10 +133,10 @@ class MusicControllState extends State<MusicControll> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 5),
+          title: const Padding(
+            padding: EdgeInsets.only(top: 5),
             child: Text(
-              "TUNE " "Ax",
+              'TUNE ' 'Ax',
               style: TextStyle(
                   fontSize: 25,
                   fontFamily: 'Gemunu',
@@ -145,13 +144,13 @@ class MusicControllState extends State<MusicControll> {
             ),
           ),
           elevation: 0,
-          backgroundColor: AppColors.back,
+          backgroundColor: app_colors.back,
           leading: IconButton(
-            padding: EdgeInsets.only(top: 5, left: 10),
+            padding: const EdgeInsets.only(top: 5, left: 10),
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.keyboard_arrow_down_rounded,
               size: 40,
             ),
@@ -159,13 +158,13 @@ class MusicControllState extends State<MusicControll> {
         ),
         backgroundColor: Colors.transparent,
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                AppColors.back,
-                Colors.black,
+                app_colors.back,
+                app_colors.shade,
               ])),
           child: Stack(
             children: [
@@ -282,13 +281,14 @@ class MusicControllState extends State<MusicControll> {
                 child: StreamBuilder<double>(
                   stream: player.speedStream,
                   builder: (context, snapshot) => IconButton(
-                    icon: Text("${snapshot.data?.toStringAsFixed(1)}x",
+                    icon: Text('${snapshot.data?.toStringAsFixed(1)}x',
+
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white)),
                     onPressed: () {
                       showSliderDialog(
                         context: context,
-                        title: "Adjust speed",
+                        title: 'Adjust speed',
                         divisions: 10,
                         min: 0.5,
                         max: 1.5,
@@ -340,11 +340,11 @@ class MusicControllState extends State<MusicControll> {
                       IconButton(
                         iconSize: 30,
                         color: Colors.white,
-                        icon: Icon(Icons.volume_up),
+                        icon: const Icon(Icons.volume_up),
                         onPressed: () {
                           showSliderDialog(
                             context: context,
-                            title: "Adjust volume",
+                            title: 'Adjust volume',
                             divisions: 10,
                             min: 0.0,
                             max: 1.0,
@@ -354,7 +354,7 @@ class MusicControllState extends State<MusicControll> {
                           );
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       IconButton(
@@ -362,18 +362,20 @@ class MusicControllState extends State<MusicControll> {
                         color: Colors.white,
                         onPressed: () {
                           showToast();
+                          setState(() {
                             fav = 1;
-                            songTitle = widget.songInfo.title;
-                            songId = widget.songInfo.id;
-                            songLocation = widget.songInfo.data;
-                            addUsers(songTitle, songId, songLocation);
+                          });
 
+                          songTitle = widget.songInfo.title;
+                          songId = widget.songInfo.id;
+                          songLocation = widget.songInfo.data;
+                          addUsers(songTitle, songId, songLocation);
                         },
-                        icon: fav == 0
-                            ? Icon(Icons.favorite_border)
-                            : Icon(Icons.favorite),
+                        icon: fav == 1
+                            ? const Icon(Icons.favorite)
+                            : const Icon(Icons.favorite_border),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       IconButton(
@@ -389,7 +391,7 @@ class MusicControllState extends State<MusicControll> {
                                     widget.songInfo.title),
                               ));
                         },
-                        icon: Icon(Icons.add_outlined),
+                        icon: const Icon(Icons.add_outlined),
                       ),
                     ],
                   ),
@@ -405,14 +407,16 @@ class MusicControllState extends State<MusicControll> {
                 top: height / 3,
                 child: Container(
                   child: Center(
-                    child:StreamBuilder<SequenceState?>(
+                    child: StreamBuilder<SequenceState?>(
                       stream: player.sequenceStateStream,
                       builder: (context, snapshot) {
-                        return Text(widget.songInfo.artist.toString(),
-                          style: TextStyle(
+                        return Text(
+                          widget.songInfo.artist.toString(),
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 20,
-                              fontFamily: "Titil"),);
+                              fontFamily: 'Title'),
+                        );
                       },
                     ),
                   ),
@@ -432,9 +436,13 @@ class MusicControllState extends State<MusicControll> {
                   child: StreamBuilder<SequenceState?>(
                     stream: player.sequenceStateStream,
                     builder: (context, snapshot) {
-                      return Text(widget.songInfo.title,
-                          style:TextStyle(
-                              color: Colors.white, fontSize: 20, fontFamily: "Titil"),);
+                      return Text(
+                        widget.songInfo.title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'Titil'),
+                      );
                     },
                   ),
                 ),
@@ -461,9 +469,9 @@ class MusicControllState extends State<MusicControll> {
                               width: 180,
                               height: 180,
                               decoration: BoxDecoration(
-                                  color: AppColors.back,
+                                  color: app_colors.back,
                                   borderRadius: BorderRadius.circular(40)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.music_note_outlined,
                                 color: Colors.white70,
                                 size: 90,
@@ -480,7 +488,11 @@ class MusicControllState extends State<MusicControll> {
       ),
     );
   }
-  void showToast()=>Fluttertoast.showToast(msg: "Added to Favourite",fontSize: 18,backgroundColor: AppColors.shade);
+
+  void showToast() => Fluttertoast.showToast(
+      msg: 'Added to Favourite',
+      fontSize: 18,
+      backgroundColor: app_colors.back);
 }
 
 void showSliderDialog({
@@ -497,10 +509,10 @@ void showSliderDialog({
   showDialog<void>(
     context: context,
     builder: (context) => AlertDialog(
-      backgroundColor: AppColors.back,
+      backgroundColor: app_colors.back,
       title: Text(title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white,
               fontFamily: 'Gemunu',
               fontWeight: FontWeight.bold,
@@ -512,7 +524,7 @@ void showSliderDialog({
           child: Column(
             children: [
               Text('${snapshot.data?.toStringAsFixed(1)}$valueSuffix',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Gemunu',
                       fontWeight: FontWeight.bold,
@@ -606,9 +618,10 @@ void showSliderDialog({
 //               child: Marquee(
 //                 blankSpace: 100,
 //                 text:
-//                 'Selena Gomez - The Heart Wants What It Wants (Official Video)',
+//                 'Selena Gomez - The Heart Wants What It Wants
+//                 (Official Video)',
 //                 style: TextStyle(
-//                     color: Colors.white, fontSize: 18, fontFamily: "Titil"),
+//                     color: Colors.white, fontSize: 18, fontFamily: "Title"),
 //               ),
 //             ),
 //             // SizedBox(
@@ -643,7 +656,8 @@ void showSliderDialog({
 //                     onPressed: player.pause,
 //                   );
 //                 } else {
-//                   return IconButton(onPressed: (){}, icon:Icon(Icons.play_arrow));
+//                   return IconButton(onPressed: (){},
+//                   icon:Icon(Icons.play_arrow));
 //                 }
 //               },
 //             ),
