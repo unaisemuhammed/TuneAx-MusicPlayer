@@ -16,7 +16,6 @@ class PlaylistDatabaseHandler {
         database,
         version,
       ) async {
-        print('Creating playlists');
         await database.execute(
           'CREATE TABLE playlist(id INTEGER PRIMARY KEY AUTOINCREMENT,'
           'playListName TEXT NOT NULL)',
@@ -42,7 +41,8 @@ class PlaylistDatabaseHandler {
   Future<int> insertSongs(List<PlayListSong> songs) async {
     int result = 0;
     final Database db = await initializeDB();
-    for (var song in songs) {result = await db.insert('songs', song.toMapForDB());
+    for (var song in songs) {result = await db.insert('songs',
+        song.toMapForDB());
     }
     return result;
   }

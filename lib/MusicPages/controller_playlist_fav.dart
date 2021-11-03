@@ -23,7 +23,8 @@ class MusicControllerPlayAndFav extends StatefulWidget {
   @override
   final GlobalKey<MusicControllerPlayAndFavState> key;
   @override
-  MusicControllerPlayAndFavState createState() => MusicControllerPlayAndFavState();
+  MusicControllerPlayAndFavState createState() =>
+      MusicControllerPlayAndFavState();
 }
 
 class MusicControllerPlayAndFavState extends State<MusicControllerPlayAndFav> {

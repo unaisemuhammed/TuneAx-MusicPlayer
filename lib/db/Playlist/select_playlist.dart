@@ -93,7 +93,6 @@ class _CreateOrSelectState extends State<CreateOrSelect> {
                     onPressed: () {
                       setState(() {
                         // playlistFolderId=(snapshot.data![index].id!);
-                        print(playlistFolderId);
                       });
                       Navigator.pop(context);
                     },
@@ -290,7 +289,6 @@ class _CreateOrSelectState extends State<CreateOrSelect> {
                   onPressed: () {
                     _showMyDialog(
                         widget.songData, widget.songTitle, widget.songId);
-                    print('playlistFolderIdu=$playlistFolderId');
                   },
                 ),
                 // decoration: ShapeDecoration(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:marquee/marquee.dart';
 import 'package:musicplayer/colors.dart' as app_colors;
 import 'package:musicplayer/db/Favourite/db_helper.dart';
 import 'package:musicplayer/db/Favourite/helper.dart';
@@ -546,7 +547,9 @@ void showSliderDialog({
   );
 }
 
-//
+
+
+
 // class BottomBar extends StatefulWidget {
 //
 //  const BottomBar({Key? key}) : super(key: key);
@@ -570,7 +573,7 @@ void showSliderDialog({
 //
 //
 //   String getDuration(double value) {
-//     Duration duration = Duration(milliseconds: value.round());
+//     final Duration duration = Duration(milliseconds: value.round());
 //
 //     return [duration.inMinutes, duration.inSeconds]
 //         .map((element) => element.remainder(60).toString().padLeft(2, '0'))
@@ -579,49 +582,49 @@ void showSliderDialog({
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     final double Heights = MediaQuery.of(context).size.height;
-//     final double Weights = MediaQuery.of(context).size.width;
+//     // final double Heights = MediaQuery.of(context).size.height;
+//     final double width = MediaQuery.of(context).size.width;
 //     return Scaffold(
 //       backgroundColor: Colors.transparent,
 //       body: Container(
 //         decoration: BoxDecoration(
-//           color: AppColors.back,
+//           color: app_colors.back,
 //           borderRadius: BorderRadius.circular(30)
 //         ),
 //         height: 90,
-//         width: Weights,
+//         width: width,
 //         child: Row(
 //           // mainAxisAlignment: MainAxisAlignment.end,
 //           children: [
-//             SizedBox(
+//             const SizedBox(
 //               width: 5,
 //             ),
 //             Container(
 //               decoration: BoxDecoration(
-//                   color: AppColors.shade,
+//                   color: app_colors.shade,
 //                   borderRadius: BorderRadius.circular(50)),
 //               child: IconButton(
 //                 iconSize: 30,
 //                 alignment: Alignment.centerLeft,
 //                 color: Colors.black,
 //                 onPressed: () {},
-//                 icon: Icon(
+//                 icon: const Icon(
 //                   Icons.music_note_outlined,
 //                   color: Colors.white,
 //                 ),
 //               ),
 //             ),
-//             SizedBox(
+//             const SizedBox(
 //               width: 5,
 //             ),
 //             Expanded(
 //               child: Marquee(
 //                 blankSpace: 100,
 //                 text:
-//                 'Selena Gomez - The Heart Wants What It Wants
-//                 (Official Video)',
-//                 style: TextStyle(
-//                     color: Colors.white, fontSize: 18, fontFamily: "Title"),
+//                 'Selena Gomez - The Heart Wants What It Wants(Official
+//                 Video)',
+//                 style: const TextStyle(
+//                     color: Colors.white, fontSize: 18, fontFamily: 'Title'),
 //               ),
 //             ),
 //             // SizedBox(
@@ -632,7 +635,7 @@ void showSliderDialog({
 //               alignment: Alignment.centerRight,
 //               color: Colors.white,
 //               onPressed: () {},
-//               icon: Icon(Icons.skip_previous_sharp),
+//               icon: const Icon(Icons.skip_previous_sharp),
 //             ),
 //             StreamBuilder<PlayerState>(
 //               stream: player.playerStateStream,
@@ -657,7 +660,7 @@ void showSliderDialog({
 //                   );
 //                 } else {
 //                   return IconButton(onPressed: (){},
-//                   icon:Icon(Icons.play_arrow));
+//                   icon:const Icon(Icons.play_arrow));
 //                 }
 //               },
 //             ),
@@ -666,16 +669,16 @@ void showSliderDialog({
 //               alignment: Alignment.centerRight,
 //               color: Colors.white,
 //               onPressed: () {},
-//               icon: Icon(Icons.skip_next),
+//               icon: const Icon(Icons.skip_next),
 //             ),
 //             IconButton(
 //               iconSize: 25,
 //               alignment: Alignment.centerRight,
 //               color: Colors.white,
 //               onPressed: () {},
-//               icon: Icon(Icons.favorite),
+//               icon: const Icon(Icons.favorite),
 //             ),
-//             SizedBox(
+//             const SizedBox(
 //               width: 5,
 //             )
 //           ],
@@ -684,11 +687,3 @@ void showSliderDialog({
 //     );
 //   }
 // }
-//
-//
-//
-//
-//
-//
-//
-//

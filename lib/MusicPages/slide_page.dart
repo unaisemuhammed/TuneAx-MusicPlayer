@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:musicplayer/MusicPages/settings_page.dart';
 import 'favourite_page.dart';
+import 'music_controll_page.dart';
 import 'playlist_page.dart';
 import 'search_page.dart';
 import 'track_page.dart';
@@ -105,12 +106,12 @@ class _SlidePageState extends State<SlidePage> {
 
               /// ///////MusicBottomBar/////// ///
               // Positioned(
-              //     bottom: Heights / 100,
+              //     bottom: heights / 100,
               //     right: 7,
               //     left: 7,
-              //     height: Heights / 13,
-              //     child: BottomBar()),
-              //
+              //     height: heights / 13,
+              //     child: const BottomBar()),
+
 
               ///ShadedPart///
               Positioned(

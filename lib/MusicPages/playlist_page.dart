@@ -65,7 +65,6 @@ class PlaylistState extends State<Playlist> {
                     onPressed: () {
                       setState(() {
                         // playlistFolderId=(snapshot.data![index].id!);
-                        print(playlistFolderId);
                       });
                       Navigator.pop(context);
                     },
@@ -95,7 +94,6 @@ class PlaylistState extends State<Playlist> {
                               builder: (context) =>
                                   SelectTrack(playlistId: playlistFolderId),
                             ));
-                        print('   playlistFolderIdr=$playlistFolderId');
                       }
                     },
                     child: const Text(
@@ -266,7 +264,6 @@ class PlaylistState extends State<Playlist> {
                     ),
                     onPressed: () {
                       _showMyDialog(playlistFolderId);
-                      print('playlistFolderIdu=$playlistFolderId');
                     },
                   ),
                   decoration: const ShapeDecoration(
