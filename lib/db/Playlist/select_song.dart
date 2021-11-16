@@ -119,9 +119,10 @@ class SelectTrackState extends State<SelectTrack> {
                         ),
                         color: Colors.white,
                         onPressed: () {
+                          if(select==0){
                             setState(() {
                               select=1;
-                            });
+                            });}
                             songID = tracks[index].id;
                             playlistID = widget.playlistId+1;
                             songName = tracks[index].title;

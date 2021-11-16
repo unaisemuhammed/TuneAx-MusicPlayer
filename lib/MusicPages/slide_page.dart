@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:musicplayer/MusicPages/settings_page.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 import 'favourite_page.dart';
 import 'music_controll_page.dart';
 import 'playlist_page.dart';
@@ -19,10 +20,34 @@ class SlidePage extends StatefulWidget {
 }
 
 class _SlidePageState extends State<SlidePage> {
+  final GlobalKey<MusicControllerState> key = GlobalKey<MusicControllerState>();
+  List<SongModel> tracks = [];
+  int currentIndex = 2;
+  final OnAudioQuery audioQuery = OnAudioQuery();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void changeTrack(bool isNext) {
+    if (isNext) {
+      if (currentIndex != tracks.length - 1) {
+        currentIndex++;
+      }
+    } else {
+      if (currentIndex != 0) {
+        currentIndex--;
+      }
+    }
+    key.currentState!.setSong(tracks[currentIndex]);
+  }
+
+  void getTracks() async {
+    tracks = await audioQuery.querySongs();
+    setState(() {
+      tracks = tracks;
+    });
   }
 
   int play = 0;
@@ -55,7 +80,7 @@ class _SlidePageState extends State<SlidePage> {
               indicatorColor: Colors.white70,
               unselectedLabelColor: Colors.white60,
               unselectedLabelStyle:
-              TextStyle(fontSize: 16, fontFamily: 'Title'),
+                  TextStyle(fontSize: 16, fontFamily: 'Title'),
               labelStyle: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Title',
@@ -110,8 +135,10 @@ class _SlidePageState extends State<SlidePage> {
               //     right: 7,
               //     left: 7,
               //     height: heights / 13,
-              //     child: const BottomBar()),
-
+              //     child:  MusicController(
+              //         songInfo: tracks[currentIndex],
+              //         changeTrack: changeTrack,
+              //         key: key)),
 
               ///ShadedPart///
               Positioned(
@@ -121,8 +148,8 @@ class _SlidePageState extends State<SlidePage> {
                 height: heights / 25,
                 child: Container(
                   child: ColorFiltered(
-                    colorFilter:
-                    const ColorFilter.mode(app_colors.back, BlendMode.srcOut),
+                    colorFilter: const ColorFilter.mode(
+                        app_colors.back, BlendMode.srcOut),
                     child: Stack(
                       fit: StackFit.expand,
                       children: [

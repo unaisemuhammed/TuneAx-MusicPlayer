@@ -51,7 +51,7 @@ class TrackState extends State<Track> {
     return await handler!.insertFavSongs(listOfUsers);
   }
 
- void requestPermission() async {
+  void requestPermission() async {
     // Web platform don't support permissions methods.
     if (!kIsWeb) {
       final bool permissionStatus = await audioQuery.permissionsStatus();
@@ -81,7 +81,8 @@ class TrackState extends State<Track> {
     }
     key.currentState!.setSong(tracks[currentIndex]);
   }
-
+  final TextEditingController _textEditingController = TextEditingController();
+  String searchingTerm = "";
   @override
   Widget build(BuildContext context) {
     final double heights = MediaQuery.of(context).size.height;
@@ -102,18 +103,6 @@ class TrackState extends State<Track> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              AudioSource.uri(
-                                Uri.parse('https://example.com/song1.mp3'),
-                                tag: MediaItem(
-                                  // Specify a unique ID for each media item:
-                                  id: '{$currentIndex++}',
-                                  // Metadata to display in the notification:
-                                  album: tracks[index].artist,
-                                  title: tracks[index].title,
-                                  artUri: Uri.parse(tracks[index].data),
-                                ),
-                              );
-
                               currentIndex = index;
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MusicController(
@@ -173,13 +162,12 @@ class TrackState extends State<Track> {
                                                 TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
-                                            showToast();
-                                            player.setUrl(tracks[index].data);
                                             songTitle = tracks[index].title;
                                             songId = tracks[index].id;
                                             songLocation = tracks[index].data;
                                             addSongsToFavourite(songTitle,
                                                 songId, songLocation);
+                                            showToast();
                                           },
                                           value: 2,
                                         ),
@@ -199,6 +187,15 @@ class TrackState extends State<Track> {
                   }),
             ),
           ),
+          // Positioned(
+          //     bottom: heights / 100,
+          //     right: 7,
+          //     left: 7,
+          //     height: heights / 13,
+          //     child: MusicController(
+          //         songInfo: tracks[currentIndex],
+          //         changeTrack: changeTrack,
+          //         key: key)),
         ],
       ),
     );

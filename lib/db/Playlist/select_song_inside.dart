@@ -123,9 +123,10 @@ class SelectInsideState extends State<SelectInside> {
                         ),
                         color: Colors.white,
                         onPressed: () {
-                          setState(() {
-                            select=1;
-                          });
+                          if(select==0){
+                            setState(() {
+                              select=1;
+                            });}
                           songID = tracks[index].id;
                           playlistID = widget.playlistId;
                           songName = tracks[index].title;

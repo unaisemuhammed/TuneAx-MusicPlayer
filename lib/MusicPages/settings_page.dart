@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:musicplayer/colors.dart' as app_colors;
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'about.dart';
 
@@ -11,13 +13,16 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int screen = 0;
-  int controllMusic = 0;
-
   @override
   Widget build(BuildContext context) {
-    final double heights = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    final double heights = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final double width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: app_colors.back,
@@ -58,7 +63,7 @@ class _SettingsState extends State<Settings> {
                   child: const Center(
                     child: Text(
                       '''TUNE '''
-                      '''Ax''',
+                          '''Ax''',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 50,
@@ -110,6 +115,10 @@ class _SettingsState extends State<Settings> {
                   child: Column(
                     children: [
                       ListTile(
+                        onTap: () {
+                          launch(
+                              'https://github.com/unaisemuhammed/Privacy-and-Policy/blob/main/privacy-policy.md');
+                        },
                         // dense: true,
                         title: const Text(
                           'Privacy and Security',
@@ -120,7 +129,6 @@ class _SettingsState extends State<Settings> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         trailing: IconButton(
-                          padding: const EdgeInsets.only(right: 20),
                           icon: const Icon(
                             Icons.lock,
                             color: Colors.white,
@@ -153,11 +161,40 @@ class _SettingsState extends State<Settings> {
                           onPressed: () {},
                         ),
                         onTap: () {
-                          setState(() {
-                            controllMusic == 0
-                                ? controllMusic = 1
-                                : controllMusic = 0;
-                          });
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible: true, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'Contact us:',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.white, fontFamily: 'Title'),
+                                ),
+                                content: GestureDetector(
+                                  onTap: () =>
+                                      launch(
+                                          'https://mail.google.com/mail/u/0/#inbox?compose=unys313@gmail.com'),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'Email:',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Text(
+                                        ' unys313@gmail.com',
+                                        style: TextStyle(color: Colors.blueAccent),
+                                      ),
+                                    ],
+                                  ),),
+                                actions: const [],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                backgroundColor: app_colors.back,
+                              );
+                            },
+                          );
                         },
                       ),
                     ],
@@ -190,7 +227,9 @@ class _SettingsState extends State<Settings> {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () {},
+                        onTap: () {
+                            Share.share('https://play.google.com/store/apps/details?id=com.unys.AxTune', subject: 'Try out TuneAx music player!');
+                        },
                         trailing: IconButton(
                           icon: const Icon(
                             Icons.share,
@@ -256,7 +295,7 @@ class _SettingsState extends State<Settings> {
               child: Container(
                 child: ColorFiltered(
                   colorFilter:
-                      const ColorFilter.mode(app_colors.back, BlendMode.srcOut),
+                  const ColorFilter.mode(app_colors.back, BlendMode.srcOut),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [

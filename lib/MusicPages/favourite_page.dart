@@ -17,8 +17,11 @@ class Favourite extends StatefulWidget {
 class FavouriteState extends State<Favourite> {
   dynamic favTracks = [];
   List<SongModel> tracks = [];
-  List <dynamic> dbTracks=[];
-  final GlobalKey<MusicControllerPlayAndFavState> key = GlobalKey<MusicControllerPlayAndFavState>();
+  List<dynamic> dbTracks = [];
+  List<SongModel> tracksOf = [];
+
+  final GlobalKey<MusicControllerPlayAndFavState> key =
+      GlobalKey<MusicControllerPlayAndFavState>();
   final OnAudioQuery audioQuery = OnAudioQuery();
   late final AudioPlayer player;
   int currentIndex = 0;
@@ -27,12 +30,12 @@ class FavouriteState extends State<Favourite> {
   dynamic songId;
   dynamic songLocation;
   int favourite = 0;
-  late  DatabaseHandler handler= DatabaseHandler();
+  late DatabaseHandler handler = DatabaseHandler();
 
   @override
   void initState() {
     super.initState();
-    handler= DatabaseHandler();
+    handler = DatabaseHandler();
     getTracks();
     getFavSong();
     player = AudioPlayer();
@@ -44,16 +47,18 @@ class FavouriteState extends State<Favourite> {
       tracks = tracks;
     });
   }
+
   void getDbTrac() async {
     dbTracks = await handler.retrieveFavSongs();
     setState(() {
       dbTracks = dbTracks;
     });
   }
+
   void getFavSong() async {
     favTracks = await handler.retrieveFavSongs();
     setState(() {
-      favTracks =favTracks;
+      favTracks = favTracks;
     });
   }
 
@@ -91,13 +96,22 @@ class FavouriteState extends State<Favourite> {
                       children: [
                         ListTile(
                           onTap: () {
-                            for(int i=0;i<=tracks.length;i++){
-                              if(tracks[i].id==snapshot.data![index].num){
-                                currentIndex=i;
+                            // for (int i = 0; i <= tracks.length; i++) {
+                            //   for (int j = 0; j <= snapshot.data!.length; j++) {
+                            //     if (tracks[i].id == snapshot.data![j].num) {
+                            //       tracksOf = tracks[i] as List<SongModel>;
+                            //     }
+                            //   }
+                            // }
+
+                            for (int i = 0; i <= tracks.length; i++) {
+                              if (tracks[i].id == snapshot.data![index].num) {
+                                currentIndex = i;
                                 break;
                               }
                             }
-                              favTracks = snapshot.data![index].location;
+                            favTracks = snapshot.data![index].location;
+
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => MusicControllerPlayAndFav(
                                       changeTrack: changeTrack,
@@ -129,23 +143,24 @@ class FavouriteState extends State<Favourite> {
                             ),
                             onPressed: () async {
                               showToast();
-                              await handler.deleteFavSongs(
-                                  snapshot.data![index].num);
+                              await handler
+                                  .deleteFavSongs(snapshot.data![index].num);
                               setState(() {
-                                snapshot.data!.remove(snapshot.data![index].num);
+                                snapshot.data!
+                                    .remove(snapshot.data![index].num);
                               });
                             },
                           ),
                           title: Text(
                             snapshot.data![index].name,
-                            style: const TextStyle(color: Colors.white,
-                                fontSize: 17),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 17),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          subtitle: const Text(
-                            'ariana Grande',
-                            style: TextStyle(color: Colors.grey),
+                          subtitle: Text(
+                            snapshot.data![index].name,
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ),
                         const Divider(
@@ -166,7 +181,9 @@ class FavouriteState extends State<Favourite> {
       ),
     );
   }
-  void showToast()=>Fluttertoast.showToast(msg: 'Deleted From Favourite',
-      fontSize: 18,backgroundColor: app_colors.back);
 
+  void showToast() => Fluttertoast.showToast(
+      msg: 'Deleted From Favourite',
+      fontSize: 18,
+      backgroundColor: app_colors.back);
 }
